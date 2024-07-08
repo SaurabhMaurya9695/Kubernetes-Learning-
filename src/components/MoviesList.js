@@ -85,7 +85,7 @@ export class MoviesList extends Component {
       <>
         <div>
           <h3 className="text-center">
-            <strong>Trending</strong>
+            <strong>Trending Now changes </strong>
           </h3>
         </div>
         <div className="movies-list">

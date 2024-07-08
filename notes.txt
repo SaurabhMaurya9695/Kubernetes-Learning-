@@ -1,0 +1,88 @@
+Kubernetes
+
+* Help us in load balancing .
+* Have N number of nodes .
+* When you deploy Kubernetes then you’ll get a cluster
+            * The Most important  part is Master Node (Control Plane ) and Worker Nodes 
+* Cluster have Master and Its Worker Node .
+* Master Node has many things {Api Server , Scheduler, ETCD , Control Manager }
+* Worker Nodes have { kublet , Kube-proxy , container-runtime } 
+* Installation In MAC-OS
+             * brew install kubectl
+             * kubectl version --client
+             * brew install miniKube
+             * miniKube start 
+             * miniKube status
+             * miniKube dashboard (This will show you Dashboard of K8)
+             * miniKube delete (deleted the minikube)
+             
+* created a POD :
+     kubectl create deployment "your app name" --image="yourDockerHubImageName:Version" 
+* To get your POD list : 
+      kubectl get deployment
+*  kubectl get pods -> this will show your PODS
+* kubectl expose deployment "your app name " --port="yourServiceInnerPort" --type=LoadBalancer 
+ Example : "kubectl expose deployment my-app  --port=80 --type=LoadBalancer"
+* kubectl get Services
+* till now miniKube doesn't know your hosting , tell miniKube regarding your app "minikube service "yourAppName" "
+* kubectl logs "yourPodName" -> this will show your pods logs 
+* 
+              K8 Rollout
+• if your service is live in production and you want to do some changes then 
+• Push the new image to docker hub with update changes 
+• so with 0 per lag we have to point our K8 cluster to new image (updated image)
+      "kubectl set image deployment "YourAppName" "YourContainerName"="YourHubRepo:version"
+     • if you set an invalid image name then your K8 trying to point to that image then in then case you have to rollOut by using commad
+     • kubectl rollout undo deployment "YourAppName" 
+      
+
+             "SCALE YOUR APP"
+• kubectl scale deployment movies-app --replicas=4
+	
+	Deployment Via Yml file
+
+* Create a deployment-node-app.yml file and write all configuration there .
+
+“
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  #unique name of your deployment instance
+  name: my-movies-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: movies-app
+  #PODS related things 
+  template:
+    metadata:
+      labels:
+       #Apply this lable to PODS and default 
+       #Deployment lable selector to this value 
+        app: movies-app
+    spec:
+      containers:
+      - name: movies-app
+        image: saurabh9695/kubernateslearning:02
+“
+
+* Now just use command “kubectl apply -f deployment-node-app.yml”
+* Same way create a service-node-app.yml and paste all things
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-movies-app
+spec:
+  selector:
+    app: movies-app
+  type: LoadBalancer  
+  ports:
+  - name : http
+    port: 8080
+    targetPort: 3000
+* Now just use command “kubectl apply -f service-node-app.yml”
+* 
+
+
+   

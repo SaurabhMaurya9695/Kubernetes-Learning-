@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  #unique name of your deployment instance
+  name: my-movies-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: movies-app
+  #PODS related things 
+  template:
+    metadata:
+      labels:
+       #Apply this lable to PODS and default 
+       #Deployment lable selector to this value 
+        app: movies-app
+    spec:
+      containers:
+      - name: movies-app
+        image: saurabh9695/kubernateslearning:03

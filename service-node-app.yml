@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-movies-app
+spec:
+  selector:
+    app: movies-app #whatever the name you mentioned in deployment-node-app.yml in lables
+  type: LoadBalancer  
+  ports:
+  - name : http
+    port: 8080
+    targetPort: 3000
